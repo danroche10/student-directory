@@ -33,18 +33,18 @@ def input_students
 end
 
 def print_header
-  puts "The students of the villian academy"
-  puts "-----------------"
+  puts ("The students of the villian academy").center(100)
+  puts ("-----------------").center(100)
 end
 
 def print(students)
   students.each_with_index do |student, index|
-      puts "#{index+1}. #{student[:name]} Hobbies: #{student[:hobbies]}, Birthplace: #{student[:birthplace]}, (#{student[:cohort]} cohort)"
+      puts ("#{index+1}. #{student[:name]} Hobbies: #{student[:hobbies]}, Birthplace: #{student[:birthplace]}, (#{student[:cohort]} cohort)").center(100, "-----")
   end
 end
 
 def print_footer(students)
-    puts "Overall, we have #{students.count} great students"
+    puts ("Overall, we have #{students.count} great students").center(100, "-----")
 end
 
 # nothing happens until we call the methods
