@@ -1,4 +1,7 @@
 def input_students
+
+  months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
+
   puts "Please enter some student details"
   puts "To finish, just hit return twice"
   # create an empty array
@@ -11,12 +14,19 @@ def input_students
     hobbies = gets.chomp
     puts "Country of birth:"
     birthplace = gets.chomp
+    birthplace == "" ? birthplace = "unknown" : birthplace = birthplace
+    puts "Cohort"
+    cohort = gets.chomp
+    while !months.include?(cohort.downcase) do
+      puts "This cohort isn't recognised. Please try again."
+      cohort = gets.chomp
+    end
   end
  
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    students << {name: name, hobbies: hobbies, birthplace: birthplace, cohort: :november}
+    students << {name: name, hobbies: hobbies, birthplace: birthplace, cohort: cohort.to_sym}
     puts "Now we have #{students.count} students"
     # gets another name from the user
     puts "Name:"
@@ -25,7 +35,13 @@ def input_students
       puts "Hobbies:"
       hobbies = gets.chomp
       puts "Country of birth:"
-      birth_country = gets.chomp
+      birthplace = gets.chomp
+      birthplace == "" ? birthplace = "unknown" : birthplace = birthplace
+      puts "Cohort"
+    while !months.include?(cohort.downcase) do
+      puts "This cohort isn't recognised. Please try again."
+      cohort = gets.chomp
+    end
     end
   end
   # return the array of students
