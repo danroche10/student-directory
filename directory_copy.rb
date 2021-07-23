@@ -99,8 +99,12 @@ def interactive_menu(months, user_menu)
 end
 
 def save_students
+  # Ask user which file they want to save data to
+  puts "Which file do you want to save data to?"
+  file_name = gets.chomp
+
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(file_name, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:hobbies], student[:birthplace], student[:cohort]]
@@ -111,7 +115,10 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
+  # Ask user which file they want to load data from
+  puts "Which file do you want to load data from?"
+  file_name = gets.chomp
+  file = File.open(file_name, "r")
   file.readlines.each do |line|
   name, hobbies, birthplace, cohort = line.chomp.split(',')
     add_to_student_array(name, hobbies, birthplace, cohort)
