@@ -103,7 +103,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:hobbies], student[:birthplace]]
+    student_data = [student[:name], student[:hobbies], student[:birthplace], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -114,13 +114,13 @@ end
 def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
+  name, hobbies, birthplace, cohort = line.chomp.split(',')
     add_to_student_array(name, hobbies, birthplace, cohort)
   end
   file.close
 end
 
-def try_load_students
+def try_load_students(filename = "students.csv")
   filename = ARGV.first # first argument from the command line
   return if filename.nil? # get out of the method if it isn't given
   if File.exists?(filename) # if it exists
