@@ -118,12 +118,12 @@ def load_students(filename = "students.csv")
   # Ask user which file they want to load data from
   puts "Which file do you want to load data from?"
   file_name = gets.chomp
-  file = File.open(file_name, "r")
-  file.readlines.each do |line|
-  name, hobbies, birthplace, cohort = line.chomp.split(',')
-    add_to_student_array(name, hobbies, birthplace, cohort)
+  File.open(file_name, "r") do |f|
+    f.readlines.each do |line|
+    name, hobbies, birthplace, cohort = line.chomp.split(',')
+      add_to_student_array(name, hobbies, birthplace, cohort)
+    end
   end
-  file.close
 end
 
 def try_load_students(filename = "students.csv")
