@@ -9,7 +9,7 @@ def input_students(months)
   students = []
   # get the first name
   puts "Name:"
-  name = gets.chomp
+  name = gets.delete("\n")
   
   # while the name is not empty, repeat this code
   while !name.empty? do
