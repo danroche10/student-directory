@@ -1,3 +1,5 @@
+require "csv"
+
 @students = []
 
 months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
@@ -50,18 +52,18 @@ def print_header
 end
 
 def print_students_list
-    @students.map { |student| student[:cohort] }.uniq.each do |cohort|
-      puts cohort.capitalize()
-      @students.each_with_index do |student, index|
-        if cohort == student[:cohort]
-          puts ("#{index+1}. Name: #{student[:name]}, Hobbies: #{student[:hobbies]}, Birthplace: #{student[:birthplace]}, (#{student[:cohort]} cohort)").center(100, "-----")
-        end
+  @students.map { |student| student[:cohort] }.uniq.each do |cohort|
+    puts cohort.capitalize()
+    @students.each_with_index do |student, index|
+      if cohort == student[:cohort]
+        puts ("#{index+1}. Name: #{student[:name]}, Hobbies: #{student[:hobbies]}, Birthplace: #{student[:birthplace]}, (#{student[:cohort]} cohort)").center(100, "-----")
       end
     end
+  end
 end
 
 def print_footer
-    puts ("Overall, we have #{@students.count} great #{@students.count > 1 ? "students" : "student"}").center(100, "-----")
+  puts ("Overall, we have #{@students.count} great #{@students.count > 1 ? "students" : "student"}").center(100, "-----")
 end
 
 def print_menu
@@ -103,26 +105,22 @@ def save_students
   puts "Which file do you want to save data to?"
   file_name = gets.chomp
 
-  # open the file for writing
-  file = File.open(file_name, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:hobbies], student[:birthplace], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  # iterate over the array of students and add to CSV
+  CSV.open(file_name, "wb") do |row|
+    @students.each do |student|
+      row << [student[:name], student[:hobbies], student[:birthplace], student[:cohort]]
+    end
   end
-  file.close
 end
 
 def load_students(filename = "students.csv")
   # Ask user which file they want to load data from
   puts "Which file do you want to load data from?"
   file_name = gets.chomp
-  File.open(file_name, "r") do |f|
-    f.readlines.each do |line|
-    name, hobbies, birthplace, cohort = line.chomp.split(',')
-      add_to_student_array(name, hobbies, birthplace, cohort)
-    end
+  # add students from CSV file into students array
+  CSV.foreach(filename) do |row|
+    name, hobbies, birthplace, cohort = row
+    add_to_student_array(name, hobbies, birthplace, cohort)
   end
 end
 
