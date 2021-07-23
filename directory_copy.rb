@@ -2,15 +2,20 @@
 
 months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 
-def input_students(months)
+user_menu = {
+  1 => :input_students,
+  2 => :show_students,
+  3 => :save_students,
+  4 => :load_students,
+  9 => :exit
+}
 
+def input_students(months)
   puts "Please enter some student details"
   puts "To finish, just hit return twice"
-  # create an empty array
   # get the first name
   puts "Name:"
   name = STDIN.gets.delete("\n")
-  
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Hobbies:"
@@ -45,8 +50,7 @@ def print_header
 end
 
 def print_students_list
-    cohorts = @students.map { |student| student[:cohort] }.uniq
-    cohorts.each do |cohort|
+    @students.map { |student| student[:cohort] }.uniq.each do |cohort|
       puts cohort.capitalize()
       @students.each_with_index do |student, index|
         if cohort == student[:cohort]
@@ -74,27 +78,21 @@ def show_students
   print_footer
 end
 
-def process(selection, months)
-  case selection
-    when "1"
-      input_students(months)
-    when "2"
-      show_students
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9"
-      exit
-    else
-      puts "I don't know what you mean, try again"
-    end
+def process(selection, months, user_menu)
+  # enable to user to navigate to the correct place
+  if selection.to_i == 1
+    send(user_menu[selection.to_i], months)
+  elsif user_menu.keys[1..-1].include?(selection.to_i)
+    send(user_menu[selection.to_i])
+  else
+    puts "I don't know what you mean, try again"
+  end
 end
 
-def interactive_menu(months)
+def interactive_menu(months, user_menu)
   loop do
     print_menu
-    process(STDIN.gets.chomp, months)
+    process(STDIN.gets.chomp, months, user_menu)
   end
 end
 
@@ -108,7 +106,6 @@ def save_students
     file.puts csv_line
   end
   file.close
-
 end
 
 def load_students(filename = "students.csv")
@@ -132,4 +129,4 @@ def try_load_students(filename = "students.csv")
   end
 end
 
-interactive_menu(months)
+interactive_menu(months, user_menu)
