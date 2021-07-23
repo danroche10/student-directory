@@ -25,7 +25,7 @@ def input_students(months)
       cohort = STDIN.gets.chomp.downcase
     end
     # add the student hash to the array
-    @students << {name: name, hobbies: hobbies, birthplace: birthplace, cohort: cohort.to_sym}
+    add_to_student_array(name, hobbies, birthplace, cohort)
     puts "Now we have #{@students.count} students"
     # STDIN.gets another name from the user
     puts "Name:"
@@ -33,6 +33,10 @@ def input_students(months)
   end
   # return the array of students
   @students
+end
+
+def add_to_student_array(name, hobbies, birthplace, cohort)
+  @students << {name: name, hobbies: hobbies, birthplace: birthplace, cohort: cohort.to_sym}
 end
 
 def print_header
@@ -99,7 +103,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:hobbies], student[:birthplace]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -111,7 +115,7 @@ def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
-    @students << {  name: name, cohort: cohort.to_sym }
+    add_to_student_array(name, hobbies, birthplace, cohort)
   end
   file.close
 end
