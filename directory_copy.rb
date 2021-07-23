@@ -1,6 +1,5 @@
 months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 
-
 def input_students(months)
 
   puts "Please enter some student details"
@@ -59,5 +58,9 @@ end
 # nothing happens until we call the methods
 students = input_students(months)
 print_header
-print(students)
-print_footer(students)
+if students.size > 0 
+  print(students)
+  print_footer(students)
+else
+  puts ("We currently do not have any students").center(100)
+end
