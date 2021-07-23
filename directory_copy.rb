@@ -9,27 +9,27 @@ def input_students(months)
   # create an empty array
   # get the first name
   puts "Name:"
-  name = gets.delete("\n")
+  name = STDIN.gets.delete("\n")
   
   # while the name is not empty, repeat this code
   while !name.empty? do
     puts "Hobbies:"
-    hobbies = gets.chomp
+    hobbies = STDIN.gets.chomp
     puts "Country of birth:"
-    birthplace = gets.chomp
+    birthplace = STDIN.gets.chomp
     birthplace == "" ? birthplace = "unknown" : birthplace = birthplace
     puts "Cohort"
-    cohort = gets.chomp.downcase
+    cohort = STDIN.gets.chomp.downcase
     while !months.include?(cohort) do
       puts "This cohort isn't recognised. Please try again."
-      cohort = gets.chomp.downcase
+      cohort = STDIN.gets.chomp.downcase
     end
     # add the student hash to the array
     @students << {name: name, hobbies: hobbies, birthplace: birthplace, cohort: cohort.to_sym}
     puts "Now we have #{@students.count} students"
-    # gets another name from the user
+    # STDIN.gets another name from the user
     puts "Name:"
-    name = gets.chomp
+    name = STDIN.gets.chomp
   end
   # return the array of students
   @students
@@ -90,7 +90,7 @@ end
 def interactive_menu(months)
   loop do
     print_menu
-    process(gets.chomp, months)
+    process(STDIN.gets.chomp, months)
   end
 end
 
@@ -107,13 +107,25 @@ def save_students
 
 end
 
-def load_students
+def load_students(filename = "students.csv")
   file = File.open("students.csv", "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {  name: name, cohort: cohort.to_sym }
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exists?(filename) # if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
 end
 
 interactive_menu(months)
