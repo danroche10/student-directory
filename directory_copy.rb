@@ -80,10 +80,12 @@ end
 
 def process(selection, months, user_menu)
   # enable to user to navigate to the correct place
+  selected_option = user_menu[selection.to_i]
   if selection.to_i == 1
-    send(user_menu[selection.to_i], months)
+    send(selected_option, months)
   elsif user_menu.keys[1..-1].include?(selection.to_i)
-    send(user_menu[selection.to_i])
+    send(selected_option)
+    puts "#{selected_option} completed!"
   else
     puts "I don't know what you mean, try again"
   end
