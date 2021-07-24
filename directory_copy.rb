@@ -140,10 +140,11 @@ def try_load_students(filename = "students.csv")
   end
 end
 
-# File.open(__FILE__, "r") do |f|
-#   f.each_line do |line|
-#     puts line
-#   end
-# end
+# Reads and puts program's own source code
+File.open(__FILE__, "r") do |f|
+  f.each_line do |line|
+    puts line
+  end
+end
 
 interactive_menu(months, user_menu)
