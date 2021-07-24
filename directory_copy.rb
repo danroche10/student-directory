@@ -20,6 +20,7 @@ def input_students(months)
   name = STDIN.gets.delete("\n")
   # while the name is not empty, repeat this code
   while !name.empty? do
+    # get further information on the student
     puts "Hobbies:"
     hobbies = STDIN.gets.chomp
     puts "Country of birth:"
@@ -27,6 +28,7 @@ def input_students(months)
     birthplace == "" ? birthplace = "unknown" : birthplace = birthplace
     puts "Cohort"
     cohort = STDIN.gets.chomp.downcase
+    # check to see if user has entered a valid month. If not ask user to try again
     while !months.include?(cohort) do
       puts "This cohort isn't recognised. Please try again."
       cohort = STDIN.gets.chomp.downcase
@@ -34,6 +36,7 @@ def input_students(months)
     # add the student hash to the array
     add_to_student_array(name, hobbies, birthplace, cohort)
     puts "Now we have #{@students.count} students"
+    # Give user opportunity to enter another student
     # STDIN.gets another name from the user
     puts "Name:"
     name = STDIN.gets.chomp
@@ -81,7 +84,8 @@ def show_students
 end
 
 def process(selection, months, user_menu)
-  # enable to user to navigate to the correct place
+  # enable user to navigate to the correct place
+  # user_menu hash used to stored user options
   selected_option = user_menu[selection.to_i]
   if selection.to_i == 1
     send(selected_option, months)
@@ -135,5 +139,11 @@ def try_load_students(filename = "students.csv")
     exit # quit the program
   end
 end
+
+# File.open(__FILE__, "r") do |f|
+#   f.each_line do |line|
+#     puts line
+#   end
+# end
 
 interactive_menu(months, user_menu)
